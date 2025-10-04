@@ -1,0 +1,77 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "linden",
+  "name": "KRRT7",
+  "colors": {
+    "primary": "#3B82F6"
+  },
+  "navigation": {
+    "languages": [
+      {
+        "language": "en",
+        "tabs": [
+          {
+            "tab": "Home",
+            "icon": "house",
+            "pages": [
+              "en/index"
+            ]
+          },
+          {
+            "tab": "Blog",
+            "icon": "newspaper",
+            "pages": [
+              "en/blog/index",
+              "en/blog/nuitka-vs-pyinstaller"
+            ]
+          }
+        ]
+      },
+      {
+        "language": "es",
+        "tabs": [
+          {
+            "tab": "Inicio",
+            "icon": "house",
+            "pages": [
+              "es/index"
+            ]
+          },
+          {
+            "tab": "Blog",
+            "icon": "newspaper",
+            "pages": [
+              "es/blog/index",
+              "es/blog/nuitka-vs-pyinstaller"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Codeflash.ai",
+        "href": "https://codeflash.ai"
+      }
+    ]
+  },
+  "seo": {
+    "indexing": "all",
+    "metatags": {
+      "og:type": "website"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/KRRT7"
+    }
+  },
+  "redirects": [
+    {
+      "source": "/blog/nuitka-vs-pyinstaller",
+      "destination": "/en/blog/nuitka-vs-pyinstaller"
+    }
+  ]
+}
