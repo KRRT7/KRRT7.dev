@@ -72,6 +72,10 @@
     {
       "source": "/blog/nuitka-vs-pyinstaller",
       "destination": "/en/blog/nuitka-vs-pyinstaller"
+    },
+    {
+      "source": "/elparche",
+      "destination": "/elparche.html"
     }
   ]
 }

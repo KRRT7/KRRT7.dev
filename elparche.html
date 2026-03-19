@@ -1,0 +1,1396 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Parche — Un pedacito de Colombia en El Salvador</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;500;700&family=Syne+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F6F0E4;
+    --parchment: #EDE5D0;
+    --ink: #18100A;
+    --gold: #C8831A;
+    --gold-dim: rgba(200,131,26,0.18);
+    --terra: #C03A1A;
+    --terra-dim: rgba(192,58,26,0.15);
+    --green: #2A5C25;
+    --muted: #7A6848;
+    --border: rgba(24,16,10,0.1);
+
+    --night-bg: #0B0804;
+    --night-mid: #140E08;
+    --night-card: #1C1510;
+    --night-border: rgba(200,131,26,0.12);
+    --neon: #F2B830;
+    --neon-coral: #FF5C3A;
+    --night-muted: #6A5C44;
+    --night-text: #EDE5D0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    transition: background 1s ease, color 1s ease;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  body.night {
+    background: var(--night-bg);
+    color: var(--night-text);
+  }
+
+  /* grain overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 999;
+    opacity: 1;
+  }
+
+  /* ── MODE TOGGLE ── */
+  .toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    padding: 0.55rem 1.1rem 0.55rem 0.9rem;
+    border-radius: 3rem;
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.5s, color 0.5s, transform 0.15s;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.15);
+  }
+  .toggle:hover { transform: scale(1.03); }
+  .toggle:active { transform: scale(0.97); }
+  body.night .toggle { background: var(--neon); color: var(--night-bg); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 6rem 2rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-word {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(12rem, 35vw, 32rem);
+    font-weight: 600;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--gold-dim);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    white-space: nowrap;
+    transition: -webkit-text-stroke 1s ease;
+    user-select: none;
+    line-height: 1;
+  }
+  body.night .hero-bg-word { -webkit-text-stroke: 1.5px rgba(242,184,48,0.09); }
+
+  .hero-eyebrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .hero-eyebrow { color: var(--neon); }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(5.5rem, 20vw, 16rem);
+    font-weight: 600;
+    line-height: 0.85;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 0.25s forwards;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .hero-name { color: var(--night-text); }
+
+  .hero-name span {
+    display: block;
+    font-style: italic;
+    color: var(--terra);
+    transition: color 1s;
+  }
+  body.night .hero-name span { color: var(--neon-coral); }
+
+  .hero-rule {
+    width: 50px;
+    height: 1px;
+    background: var(--gold);
+    margin: 2.5rem auto;
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 0.4s forwards;
+    position: relative;
+    transition: background 1s;
+  }
+  body.night .hero-rule { background: var(--neon); }
+
+  .hero-tagline {
+    font-size: 0.88rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 0.55s forwards;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .hero-tagline { color: var(--night-muted); }
+
+  .hero-hours {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    margin-top: 0.6rem;
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 0.65s forwards;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .hero-hours { color: var(--night-muted); }
+
+  .scroll-cue {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: up 0.9s cubic-bezier(0.16,1,0.3,1) 1.1s forwards;
+  }
+  .scroll-cue-label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: color 1s;
+  }
+  body.night .scroll-cue-label { color: var(--night-muted); }
+  .scroll-cue-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: pulse 2.2s ease infinite;
+    transition: background 1s;
+  }
+  body.night .scroll-cue-line { background: linear-gradient(to bottom, var(--neon), transparent); }
+
+  /* ── MENU SECTION WRAPPER ── */
+  .menu-section {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 5rem 2rem 6rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.2rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid var(--border);
+    transition: border-color 1s;
+  }
+  body.night .section-header { border-color: var(--night-border); }
+
+  .section-num {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--gold);
+    letter-spacing: 0.2em;
+    transition: color 1s;
+  }
+  body.night .section-num { color: var(--neon); }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    transition: color 1s;
+  }
+  body.night .section-title { color: var(--night-text); }
+
+  /* ── CATEGORY ── */
+  .cat { margin-bottom: 3rem; }
+
+  .cat-label {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--terra);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: color 1s;
+  }
+  body.night .cat-label { color: var(--neon-coral); }
+  .cat-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--terra-dim);
+    transition: background 1s;
+  }
+  body.night .cat-label::after { background: rgba(255,92,58,0.12); }
+
+  /* ── MENU ITEM ── */
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+    align-items: start;
+    transition: border-color 1s;
+  }
+  body.night .item { border-color: rgba(255,255,255,0.05); }
+
+  .item:last-child { border-bottom: none; }
+
+  .item-left { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .item-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+
+  .item-name {
+    font-size: 0.97rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: color 1s;
+  }
+  body.night .item-name { color: #E8DFCC; }
+
+  .item-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+    font-weight: 400;
+    max-width: 460px;
+    transition: color 1s;
+  }
+  body.night .item-desc { color: var(--night-muted); }
+
+  .item-price {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--ink);
+    white-space: nowrap;
+    padding-top: 0.15rem;
+    transition: color 1s;
+  }
+  body.night .item-price { color: #C8B898; }
+
+  /* badges */
+  .badge {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.52rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 2rem;
+  }
+  .b-firma { background: var(--terra-dim); color: var(--terra); }
+  .b-fav   { background: rgba(42,92,37,0.12); color: var(--green); }
+  .b-veg   { background: rgba(42,92,37,0.12); color: var(--green); }
+  .b-mesa  { background: var(--terra-dim); color: var(--terra); }
+  .b-0     { background: rgba(24,16,10,0.06); color: var(--muted); }
+  .b-abv   { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+
+  body.night .b-firma { background: rgba(255,92,58,0.13); color: var(--neon-coral); }
+  body.night .b-fav   { background: rgba(80,160,70,0.15); color: #72C469; }
+  body.night .b-veg   { background: rgba(80,160,70,0.15); color: #72C469; }
+  body.night .b-mesa  { background: rgba(255,92,58,0.13); color: var(--neon-coral); }
+  body.night .b-0     { background: rgba(255,255,255,0.05); color: var(--night-muted); }
+  body.night .b-abv   { border-color: rgba(255,255,255,0.08); color: var(--night-muted); }
+
+  /* ── MENU VISIBILITY ── */
+  .band, .parche-bg { display: none; }
+  body.night .band, body.night .parche-bg { display: block; }
+  body.night .day-menu { display: none; }
+  .nav-night-link { display: none; }
+  body.night .nav-day-link { display: none; }
+  body.night .nav-night-link { display: inline; }
+
+  /* ── DIVIDER BAND ── */
+  .band {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: background 1s;
+  }
+  body.night .band { background: var(--night-card); display: block; }
+
+  .band-ghost {
+    position: absolute;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(8rem, 28vw, 24rem);
+    font-weight: 600;
+    font-style: italic;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(200,131,26,0.12);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    transition: -webkit-text-stroke 1s;
+  }
+  body.night .band-ghost { -webkit-text-stroke: 1px rgba(242,184,48,0.1); }
+
+  .band-eyebrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .band-eyebrow { color: var(--neon); }
+
+  .band-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 9vw, 7rem);
+    font-weight: 400;
+    font-style: italic;
+    line-height: 1;
+    position: relative;
+  }
+
+  .band-title em {
+    font-style: normal;
+    display: block;
+    color: var(--terra-light, #E8674A);
+    transition: color 1s;
+  }
+  body.night .band-title em { color: var(--neon-coral); }
+
+  .band-sub {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    color: #6B5A3E;
+    margin-top: 1.5rem;
+    position: relative;
+    transition: color 1s;
+  }
+  body.night .band-sub { color: var(--night-muted); }
+
+  /* ── PARCHE SECTION BG ── */
+  .parche-bg {
+    background: var(--parchment);
+    transition: background 1s;
+  }
+  body.night .parche-bg { background: var(--night-mid); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink);
+    color: var(--cream);
+    text-align: center;
+    padding: 3.5rem 2rem;
+    transition: background 1s;
+  }
+  body.night footer { background: #050300; }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 0.4rem;
+    color: var(--cream);
+  }
+
+  .footer-detail {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: #5A4A32;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+    transition: color 1s;
+  }
+  body.night .footer-detail { color: #3A2E1E; }
+
+  .footer-rule {
+    width: 30px;
+    height: 1px;
+    background: #3A2E1E;
+    margin: 1.5rem auto;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes up {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.3; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── STICKY NAV ── */
+  .sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(246,240,228,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0.7rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    transform: translateY(-100%);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1), background 1s, border-color 1s;
+  }
+  .sticky-nav.show { transform: translateY(0); }
+  body.night .sticky-nav {
+    background: rgba(11,8,4,0.92);
+    border-color: var(--night-border);
+  }
+
+  .nav-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: none;
+    margin-right: auto;
+    transition: color 1s;
+  }
+  body.night .nav-brand { color: var(--night-text); }
+
+  .nav-links { display: flex; gap: 2rem; align-items: center; }
+
+  .sticky-nav a {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    transition: color 0.3s;
+    white-space: nowrap;
+  }
+  .sticky-nav a.nav-brand { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; letter-spacing: normal; text-transform: none; }
+  .sticky-nav a:hover, .sticky-nav a.active { color: var(--gold); }
+  body.night .sticky-nav a { color: var(--night-muted); }
+  body.night .sticky-nav a.nav-brand { color: var(--night-text); }
+  body.night .sticky-nav a:hover, body.night .sticky-nav a.active { color: var(--neon); }
+
+  .hamburger {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3rem;
+    margin-left: auto;
+  }
+  .hamburger span {
+    display: block;
+    width: 18px;
+    height: 1.5px;
+    background: var(--ink);
+    margin: 4px 0;
+    transition: background 1s, transform 0.3s, opacity 0.3s;
+  }
+  body.night .hamburger span { background: var(--night-text); }
+  .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(3.5px, 3.5px); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(3.5px, -3.5px); }
+
+  [id] { scroll-margin-top: 3.5rem; }
+
+  /* ── ABOUT ── */
+  .about {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 2rem 5rem;
+    text-align: center;
+  }
+  .about-eyebrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    transition: color 1s;
+  }
+  body.night .about-eyebrow { color: var(--neon); }
+  .about-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.35rem;
+    font-style: italic;
+    line-height: 1.7;
+    color: var(--ink);
+    transition: color 1s;
+  }
+  body.night .about-text { color: var(--night-text); }
+  .about-text strong { font-weight: 600; color: var(--terra); transition: color 1s; }
+  body.night .about-text strong { color: var(--neon-coral); }
+
+  /* ── SOCIAL CTA ── */
+  .social-band {
+    background: var(--parchment);
+    text-align: center;
+    padding: 3.5rem 2rem;
+    transition: background 1s;
+  }
+  body.night .social-band { background: var(--night-mid); }
+  .social-eyebrow {
+    font-family: 'Syne Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+    transition: color 1s;
+  }
+  body.night .social-eyebrow { color: var(--night-muted); }
+  .social-handle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 600;
+    font-style: italic;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .social-handle:hover { color: var(--terra); }
+  body.night .social-handle { color: var(--night-text); }
+  body.night .social-handle:hover { color: var(--neon-coral); }
+
+  /* ── CONTACT ── */
+  .contact {
+    text-align: center;
+    padding: 4rem 2rem;
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    transition: color 1s;
+  }
+  body.night .contact-title { color: var(--night-text); }
+  .contact-sub {
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    transition: color 1s;
+  }
+  body.night .contact-sub { color: var(--night-muted); }
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--green);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 0.8rem 2rem;
+    border-radius: 3rem;
+    transition: transform 0.15s, box-shadow 0.3s;
+    box-shadow: 0 2px 16px rgba(42,92,37,0.25);
+  }
+  .wa-btn:hover { transform: scale(1.03); box-shadow: 0 4px 24px rgba(42,92,37,0.35); }
+  .wa-btn:active { transform: scale(0.97); }
+  .wa-btn svg { width: 18px; height: 18px; fill: #fff; }
+
+  /* ── TOGGLE ICON ── */
+  .toggle-icon {
+    font-size: 0.72rem;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), opacity 0.3s;
+  }
+
+  /* ── SCROLL PROGRESS ── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 1.5px;
+    background: var(--gold);
+    z-index: 301;
+    transform-origin: left;
+    transform: scaleX(0);
+    width: 100%;
+    transition: background 1s;
+    pointer-events: none;
+  }
+  body.night .scroll-progress { background: var(--neon); }
+
+  /* ── MICRO-POLISH ── */
+  ::selection { background: rgba(200,131,26,0.25); color: var(--ink); }
+  body.night ::selection { background: rgba(242,184,48,0.2); color: var(--night-text); }
+
+  .item {
+    position: relative;
+    transition: border-color 1s, padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .item::before {
+    content: '';
+    position: absolute;
+    left: -0.6rem;
+    top: 1rem;
+    bottom: 1rem;
+    width: 2px;
+    background: var(--gold);
+    border-radius: 1px;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .item:hover { padding-left: 0.4rem; }
+  .item:hover::before { transform: scaleY(1); }
+  body.night .item::before { background: var(--neon); }
+
+  .item-name { transition: color 1s, letter-spacing 0.4s cubic-bezier(0.16,1,0.3,1); }
+  .item:hover .item-name { letter-spacing: 0.015em; }
+
+  /* staggered children inside revealed categories */
+  .cat.reveal .item {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.5s cubic-bezier(0.16,1,0.3,1),
+                transform 0.5s cubic-bezier(0.16,1,0.3,1),
+                border-color 1s,
+                padding-left 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cat.reveal.visible .item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* nav active dot */
+  .sticky-nav .nav-links a { position: relative; }
+  .sticky-nav .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--gold);
+    transform: translateX(-50%) scale(0);
+    transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+  }
+  .sticky-nav .nav-links a.active::after { transform: translateX(-50%) scale(1); }
+  body.night .sticky-nav .nav-links a::after { background: var(--neon); }
+
+  /* social underline sweep */
+  .social-handle { position: relative; display: inline-block; }
+  .social-handle::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1.5px;
+    background: var(--terra);
+    transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .social-handle:hover::after { width: 100%; }
+  body.night .social-handle::after { background: var(--neon-coral); }
+
+  /* band edge lines */
+  .band::before, .band::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    transition: background 1s;
+  }
+  .band::before { top: 0; }
+  .band::after { bottom: 0; }
+  body.night .band::before, body.night .band::after {
+    background: linear-gradient(90deg, transparent, rgba(242,184,48,0.12), transparent);
+  }
+
+  /* whatsapp night glow */
+  body.night .wa-btn {
+    background: #25D366;
+    box-shadow: 0 2px 20px rgba(37,211,102,0.25);
+  }
+  body.night .wa-btn:hover { box-shadow: 0 4px 28px rgba(37,211,102,0.4); }
+
+  /* hero scroll fade */
+  .hero { transition: opacity 0.1s linear; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .item { grid-template-columns: 1fr; gap: 0.4rem; }
+    .item-price { font-size: 0.78rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .hero-name { font-size: clamp(4rem, 18vw, 8rem); }
+    .menu-section { padding: 3.5rem 1.5rem 4rem; }
+    .section-header { margin-bottom: 2.5rem; }
+    .about { padding: 0 1.5rem 4rem; }
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      background: rgba(246,240,228,0.97);
+      backdrop-filter: blur(12px);
+      padding: 1rem 2rem 1.5rem;
+      gap: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    body.night .nav-links { background: rgba(11,8,4,0.97); border-color: var(--night-border); }
+    .nav-links.open { display: flex; }
+    .hamburger { display: block; }
+    .sticky-nav { padding: 0.7rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress"></div>
+
+<button class="toggle" onclick="document.body.classList.toggle('night'); updateToggle()">
+  <span class="toggle-icon">☀</span>
+  <span class="toggle-label">Día</span>
+</button>
+
+<!-- ══ STICKY NAV ══ -->
+<nav class="sticky-nav">
+  <a href="#" class="nav-brand">El Parche</a>
+  <button class="hamburger" onclick="this.classList.toggle('open'); this.nextElementSibling.classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="#desayuno" class="nav-day-link">Desayuno</a>
+    <a href="#platos" class="nav-day-link">Platos</a>
+    <a href="#picar" class="nav-day-link">Picar</a>
+    <a href="#bebidas" class="nav-day-link">Bebidas</a>
+    <a href="#granizados" class="nav-night-link">Granizados</a>
+    <a href="#cocteles" class="nav-night-link">Cocteles</a>
+    <a href="#cervezas" class="nav-night-link">Cervezas</a>
+    <a href="#picada" class="nav-night-link">Picada</a>
+  </div>
+</nav>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-bg-word">Parche</div>
+  <p class="hero-eyebrow">Santa Rosa de Lima · El Salvador</p>
+  <h1 class="hero-name">El<span>Parche</span></h1>
+  <div class="hero-rule"></div>
+  <p class="hero-tagline">Un pedacito de Colombia en El Salvador</p>
+  <p class="hero-hours">Lun — Dom &nbsp;·&nbsp; 8:00 am — cierre</p>
+  <div class="scroll-cue">
+    <span class="scroll-cue-label">Ver menú</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+
+<!-- ══ DAY MENU ══ -->
+<div class="day-menu menu-section">
+  <div id="desayuno" class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Para empezar el día</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Mañana</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Calentado paisa</span></div>
+        <p class="item-desc">Arroz y frijoles del día anterior, chicharrón, huevo frito y arepa boyacense</p>
+      </div>
+      <span class="item-price">$5.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Changua</span></div>
+        <p class="item-desc">Sopa de leche bogotana con huevo escalfado, cilantro y calado de pan</p>
+      </div>
+      <span class="item-price">$4.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepa con hogao y queso</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Arepa de choclo a la plancha, hogao casero y queso costeño desmenuzado</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepas de queso</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Arepas de maíz con queso derretido por dentro, doradas a la plancha — orden de 2</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepas de huevo</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Arepa frita rellena de huevo entero al estilo costeño — orden de 2</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+  </div>
+
+  <div id="platos" class="section-header reveal" style="margin-top:4rem;">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Platos fuertes</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Al mediodía</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Bandeja paisa</span></div>
+        <p class="item-desc">Frijoles, arroz, carne molida, chicharrón, patacón, huevo y arepa — versión individual</p>
+      </div>
+      <span class="item-price">$7.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Sancocho de pollo</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Caldo espeso con yuca, papa, plátano y pollo, acompañado de arroz y aguacate</p>
+      </div>
+      <span class="item-price">$6.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Ajiaco bogotano</span></div>
+        <p class="item-desc">Sopa de tres papas con pollo desmenuzado, guascas, crema y alcaparras</p>
+      </div>
+      <span class="item-price">$6.50</span>
+    </div>
+  </div>
+
+  <div id="picar" class="section-header reveal" style="margin-top:4rem;">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Para picar</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Todo el día</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Empanadas de pipián</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Masa de maíz frita, rellena de papa amarilla con hogao — orden de 3</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Buñuelos</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Bolitas de queso frito, esponjosas por dentro — orden de 4</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Patacón con todo</span></div>
+        <p class="item-desc">Plátano verde aplastado y frito, carne desmechada, hogao, queso y guacamole</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Papas rellenas</span></div>
+        <p class="item-desc">Papa criolla rellena de carne, frita hasta dorar — orden de 3 con ají casero</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Salchipapa</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Papas fritas con salchicha, salsas rosada y de ajo, y un toque de limón</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+  </div>
+
+  <div id="bebidas" class="section-header reveal" style="margin-top:4rem;">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Granizados y bebidas</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Sin alcohol</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Granizado de tamarindo con leche</span></div>
+        <p class="item-desc">Hielo raspado, jarabe de tamarindo, leche condensada y sal</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Cholado caleño</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Hielo con frutas frescas, leche condensada, coco rallado y jarabe</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Lulada</span></div>
+        <p class="item-desc">Lulo exprimido, agua, azúcar y hielo — estilo valluno</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Agua de panela con limón</span></div>
+        <p class="item-desc">Fría o caliente — la más colombiana que existe</p>
+      </div>
+      <span class="item-price">$1.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Tinto colombiano</span></div>
+        <p class="item-desc">Café negro de filtro, grano 100% colombiano</p>
+      </div>
+      <span class="item-price">$1.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Mazamorra con leche</span></div>
+        <p class="item-desc">Maíz pelado cocinado lento, servido frío con leche y bocadillo</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ DIVIDER BAND ══ -->
+<div class="band">
+  <div class="band-ghost">Parche</div>
+  <p class="band-eyebrow">A partir de las 5:00 pm</p>
+  <h2 class="band-title">El parche<em>empieza</em></h2>
+  <p class="band-sub">Granizados con fuerza · Aguardiente · Cervezas · Picadas</p>
+</div>
+
+<!-- ══ NIGHT MENU ══ -->
+<div id="parche" class="parche-bg">
+  <div class="menu-section">
+
+    <div id="granizados" class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Granizados con fuerza</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Firma del parche</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Cholado aguardentoso</span>
+            <span class="badge b-firma">firma</span>
+            <span class="badge b-abv">aguardiente</span>
+          </div>
+          <p class="item-desc">Cholado caleño con un shot de Nectar blanco, frutas frescas y leche condensada</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado de maracuyá con ron</span>
+            <span class="badge b-abv">ron</span>
+          </div>
+          <p class="item-desc">Hielo raspado, maracuyá natural, ron blanco y un toque de sal marina</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado de lulo y ginebra</span>
+            <span class="badge b-abv">gin</span>
+          </div>
+          <p class="item-desc">Lulo exprimido, hielo fino, ginebra y agua con gas — refrescante y elegante</p>
+        </div>
+        <span class="item-price">$5.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado sin alcohol</span>
+            <span class="badge b-0">0%</span>
+          </div>
+          <p class="item-desc">Cholado o tamarindo — para el que maneja o no le provoca</p>
+        </div>
+        <span class="item-price">$2.50</span>
+      </div>
+    </div>
+
+    <div id="cocteles" class="section-header reveal" style="margin-top:4rem;">
+      <span class="section-num">06</span>
+      <h2 class="section-title">Cocteles colombianos</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">De la barra</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Canelazo frío</span>
+            <span class="badge b-fav">fav</span>
+          </div>
+          <p class="item-desc">Aguardiente, canela, panela derretida y limón — el clásico andino en versión helada</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Michelada colombiana</span></div>
+          <p class="item-desc">Cerveza fría con limón, sal, salsa negra y ají — estilo costa caribe</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Ron con panela y limón</span></div>
+          <p class="item-desc">Ron colombiano, jugo de panela fría, limón exprimido y hielo</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+    </div>
+
+    <div id="cervezas" class="section-header reveal" style="margin-top:4rem;">
+      <span class="section-num">07</span>
+      <h2 class="section-title">Cervezas</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Bien frías</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Águila / Águila Light</span></div>
+          <p class="item-desc">La cerveza colombiana por excelencia — importada</p>
+        </div>
+        <span class="item-price">$3.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Pilsener / Golden</span></div>
+          <p class="item-desc">Opciones locales salvadoreñas bien frías</p>
+        </div>
+        <span class="item-price">$2.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Artesanal del mes</span></div>
+          <p class="item-desc">Rotación mensual — consulta al mesero</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+    </div>
+
+    <div class="section-header reveal" style="margin-top:4rem;">
+      <span class="section-num">08</span>
+      <h2 class="section-title">Aguardiente</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Shots y rondas</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Shot de Nectar</span></div>
+          <p class="item-desc">Aguardiente antioqueño sin azúcar — solo o con limonada de panela</p>
+        </div>
+        <span class="item-price">$3.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">La vuelta</span>
+            <span class="badge b-mesa">mesa</span>
+          </div>
+          <p class="item-desc">Ronda de 4 shots de Nectar para la mesa — porque el parche es en grupo</p>
+        </div>
+        <span class="item-price">$10.00</span>
+      </div>
+    </div>
+
+    <div id="picada" class="section-header reveal" style="margin-top:4rem;">
+      <span class="section-num">09</span>
+      <h2 class="section-title">Picada</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Para compartir</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Picada paisa</span>
+            <span class="badge b-firma">firma</span>
+          </div>
+          <p class="item-desc">Morcilla, chicharrón, chorizo y butifarra — tabla para compartir con ají casero y arepitas</p>
+        </div>
+        <span class="item-price">$12.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Morcilla con arepa</span></div>
+          <p class="item-desc">Morcilla antioqueña en rodajas, a la plancha, con arepa de maíz y hogao</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Chorizos al carbón</span></div>
+          <p class="item-desc">Dos chorizos colombianos con limón, ají y pan de bono</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Chicharrón crocante</span></div>
+          <p class="item-desc">Chicharrón en trozos, exprimido al momento, con guacamole y ají de maní</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Butifarras con patacón</span></div>
+          <p class="item-desc">Butifarras costeñas fritas sobre patacón aplastado con hogao y queso costeño</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Empanadas fritas (x4)</span></div>
+          <p class="item-desc">De pipián o carne — con ají colombiano casero al lado</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Chifles con ají de maní</span>
+            <span class="badge b-veg">veg</span>
+          </div>
+          <p class="item-desc">Plátano maduro en chips con salsa de maní y ají amarillo</p>
+        </div>
+        <span class="item-price">$3.00</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ SOCIAL CTA ══ -->
+<div class="social-band reveal">
+  <p class="social-eyebrow">Síguenos en Instagram</p>
+  <a href="https://instagram.com/elparche.sv" target="_blank" rel="noopener" class="social-handle">@elparche.sv</a>
+</div>
+
+<!-- ══ CONTACT ══ -->
+<div class="contact reveal">
+  <h2 class="contact-title">¿Querés reservar?</h2>
+  <p class="contact-sub">Escribinos por WhatsApp — te guardamos la mesa</p>
+  <a href="https://wa.me/50300000000" target="_blank" rel="noopener" class="wa-btn">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-logo">El Parche</div>
+  <div class="footer-detail">Santa Rosa de Lima · El Salvador</div>
+  <div class="footer-rule"></div>
+  <div class="footer-detail">Precios en USD &nbsp;·&nbsp; Consumo responsable &nbsp;·&nbsp; El parche es de todos</div>
+</footer>
+
+<script>
+  // ── Toggle ──
+  function updateToggle() {
+    const isNight = document.body.classList.contains('night');
+    document.querySelector('.toggle-label').textContent = isNight ? 'Noche' : 'Día';
+    document.querySelector('.toggle-icon').textContent = isNight ? '☾' : '☀';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // re-observe reveals for newly visible content
+    setTimeout(() => {
+      document.querySelectorAll('.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+    }, 100);
+  }
+
+  const hour = new Date().getHours();
+  if (hour >= 17 || hour < 2) {
+    document.body.classList.add('night');
+    updateToggle();
+  }
+
+  // ── Scroll reveal with staggered items ──
+  document.querySelectorAll('.cat').forEach(cat => {
+    cat.querySelectorAll('.item').forEach((item, i) => {
+      item.style.transitionDelay = (i * 0.07) + 's';
+    });
+  });
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── Sticky nav ──
+  const nav = document.querySelector('.sticky-nav');
+  const hero = document.querySelector('.hero');
+  const navObserver = new IntersectionObserver(([e]) => {
+    nav.classList.toggle('show', !e.isIntersecting);
+  }, { threshold: 0 });
+  navObserver.observe(hero);
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('open');
+      document.querySelector('.hamburger').classList.remove('open');
+    });
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+
+  // ── Scroll progress + hero parallax + hero fade ──
+  const ghostWord = document.querySelector('.hero-bg-word');
+  const progressBar = document.querySelector('.scroll-progress');
+  const heroEl = document.querySelector('.hero');
+  const docHeight = () => document.documentElement.scrollHeight - window.innerHeight;
+
+  window.addEventListener('scroll', () => {
+    const y = window.scrollY;
+
+    // scroll progress
+    progressBar.style.transform = 'scaleX(' + (y / docHeight()) + ')';
+
+    // hero parallax + fade
+    if (y < window.innerHeight) {
+      ghostWord.style.transform = 'translate(-50%, calc(-50% + ' + (y * 0.15) + 'px))';
+      heroEl.style.opacity = 1 - (y / window.innerHeight) * 0.4;
+    }
+  }, { passive: true });
+</script>
+</body>
+</html>
