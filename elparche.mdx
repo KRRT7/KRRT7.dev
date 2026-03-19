@@ -1,0 +1,503 @@
+---
+title: "El Parche"
+description: "Un pedacito de Colombia en El Salvador"
+mode: "custom"
+---
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Syne:wght@400;500;700&family=Syne+Mono&display=swap" rel="stylesheet" />
+
+<div class="el-parche">
+
+<div class="scroll-progress"></div>
+
+<button class="toggle">
+  <span class="toggle-icon">☀</span>
+  <span class="toggle-label">Día</span>
+</button>
+
+{/* ══ STICKY NAV ══ */}
+<nav class="sticky-nav">
+  <a href="#" class="nav-brand">El Parche</a>
+  <button class="hamburger">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links">
+    <a href="#desayuno" class="nav-day-link">Desayuno</a>
+    <a href="#platos" class="nav-day-link">Platos</a>
+    <a href="#picar" class="nav-day-link">Picar</a>
+    <a href="#bebidas" class="nav-day-link">Bebidas</a>
+    <a href="#granizados" class="nav-night-link">Granizados</a>
+    <a href="#cocteles" class="nav-night-link">Cocteles</a>
+    <a href="#cervezas" class="nav-night-link">Cervezas</a>
+    <a href="#picada" class="nav-night-link">Picada</a>
+  </div>
+</nav>
+
+{/* ══ HERO ══ */}
+<section class="hero">
+  <div class="hero-bg-word">Parche</div>
+  <p class="hero-eyebrow">Santa Rosa de Lima · El Salvador</p>
+  <h1 class="hero-name">El<span>Parche</span></h1>
+  <div class="hero-rule"></div>
+  <p class="hero-tagline">Un pedacito de Colombia en El Salvador</p>
+  <p class="hero-hours">Lun — Dom &nbsp;·&nbsp; 8:00 am — cierre</p>
+  <div class="scroll-cue">
+    <span class="scroll-cue-label">Ver menú</span>
+    <div class="scroll-cue-line"></div>
+  </div>
+</section>
+
+
+{/* ══ DAY MENU ══ */}
+<div class="day-menu menu-section">
+  <div id="desayuno" class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Para empezar el día</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Mañana</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Calentado paisa</span></div>
+        <p class="item-desc">Arroz y frijoles del día anterior, chicharrón, huevo frito y arepa boyacense</p>
+      </div>
+      <span class="item-price">$5.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Changua</span></div>
+        <p class="item-desc">Sopa de leche bogotana con huevo escalfado, cilantro y calado de pan</p>
+      </div>
+      <span class="item-price">$4.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepa con hogao y queso</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Arepa de choclo a la plancha, hogao casero y queso costeño desmenuzado</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepas de queso</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Arepas de maíz con queso derretido por dentro, doradas a la plancha — orden de 2</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Arepas de huevo</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Arepa frita rellena de huevo entero al estilo costeño — orden de 2</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+  </div>
+
+  <div id="platos" class="section-header reveal" style={{marginTop: "4rem"}}>
+    <span class="section-num">02</span>
+    <h2 class="section-title">Platos fuertes</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Al mediodía</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Bandeja paisa</span></div>
+        <p class="item-desc">Frijoles, arroz, carne molida, chicharrón, patacón, huevo y arepa — versión individual</p>
+      </div>
+      <span class="item-price">$7.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Sancocho de pollo</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Caldo espeso con yuca, papa, plátano y pollo, acompañado de arroz y aguacate</p>
+      </div>
+      <span class="item-price">$6.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Ajiaco bogotano</span></div>
+        <p class="item-desc">Sopa de tres papas con pollo desmenuzado, guascas, crema y alcaparras</p>
+      </div>
+      <span class="item-price">$6.50</span>
+    </div>
+  </div>
+
+  <div id="picar" class="section-header reveal" style={{marginTop: "4rem"}}>
+    <span class="section-num">03</span>
+    <h2 class="section-title">Para picar</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Todo el día</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Empanadas de pipián</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Masa de maíz frita, rellena de papa amarilla con hogao — orden de 3</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Buñuelos</span><span class="badge b-veg">veg</span></div>
+        <p class="item-desc">Bolitas de queso frito, esponjosas por dentro — orden de 4</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Patacón con todo</span></div>
+        <p class="item-desc">Plátano verde aplastado y frito, carne desmechada, hogao, queso y guacamole</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Papas rellenas</span></div>
+        <p class="item-desc">Papa criolla rellena de carne, frita hasta dorar — orden de 3 con ají casero</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Salchipapa</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Papas fritas con salchicha, salsas rosada y de ajo, y un toque de limón</p>
+      </div>
+      <span class="item-price">$3.50</span>
+    </div>
+  </div>
+
+  <div id="bebidas" class="section-header reveal" style={{marginTop: "4rem"}}>
+    <span class="section-num">04</span>
+    <h2 class="section-title">Granizados y bebidas</h2>
+  </div>
+
+  <div class="cat reveal">
+    <div class="cat-label">Sin alcohol</div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Granizado de tamarindo con leche</span></div>
+        <p class="item-desc">Hielo raspado, jarabe de tamarindo, leche condensada y sal</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Cholado caleño</span><span class="badge b-fav">fav</span></div>
+        <p class="item-desc">Hielo con frutas frescas, leche condensada, coco rallado y jarabe</p>
+      </div>
+      <span class="item-price">$3.00</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Lulada</span></div>
+        <p class="item-desc">Lulo exprimido, agua, azúcar y hielo — estilo valluno</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Agua de panela con limón</span></div>
+        <p class="item-desc">Fría o caliente — la más colombiana que existe</p>
+      </div>
+      <span class="item-price">$1.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Tinto colombiano</span></div>
+        <p class="item-desc">Café negro de filtro, grano 100% colombiano</p>
+      </div>
+      <span class="item-price">$1.50</span>
+    </div>
+
+    <div class="item">
+      <div class="item-left">
+        <div class="item-top"><span class="item-name">Mazamorra con leche</span></div>
+        <p class="item-desc">Maíz pelado cocinado lento, servido frío con leche y bocadillo</p>
+      </div>
+      <span class="item-price">$2.50</span>
+    </div>
+  </div>
+</div>
+
+{/* ══ DIVIDER BAND ══ */}
+<div class="band">
+  <div class="band-ghost">Parche</div>
+  <p class="band-eyebrow">A partir de las 5:00 pm</p>
+  <h2 class="band-title">El parche<em>empieza</em></h2>
+  <p class="band-sub">Granizados con fuerza · Aguardiente · Cervezas · Picadas</p>
+</div>
+
+{/* ══ NIGHT MENU ══ */}
+<div id="parche" class="parche-bg">
+  <div class="menu-section">
+
+    <div id="granizados" class="section-header reveal">
+      <span class="section-num">05</span>
+      <h2 class="section-title">Granizados con fuerza</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Firma del parche</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Cholado aguardentoso</span>
+            <span class="badge b-firma">firma</span>
+            <span class="badge b-abv">aguardiente</span>
+          </div>
+          <p class="item-desc">Cholado caleño con un shot de Nectar blanco, frutas frescas y leche condensada</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado de maracuyá con ron</span>
+            <span class="badge b-abv">ron</span>
+          </div>
+          <p class="item-desc">Hielo raspado, maracuyá natural, ron blanco y un toque de sal marina</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado de lulo y ginebra</span>
+            <span class="badge b-abv">gin</span>
+          </div>
+          <p class="item-desc">Lulo exprimido, hielo fino, ginebra y agua con gas — refrescante y elegante</p>
+        </div>
+        <span class="item-price">$5.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Granizado sin alcohol</span>
+            <span class="badge b-0">0%</span>
+          </div>
+          <p class="item-desc">Cholado o tamarindo — para el que maneja o no le provoca</p>
+        </div>
+        <span class="item-price">$2.50</span>
+      </div>
+    </div>
+
+    <div id="cocteles" class="section-header reveal" style={{marginTop: "4rem"}}>
+      <span class="section-num">06</span>
+      <h2 class="section-title">Cocteles colombianos</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">De la barra</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Canelazo frío</span>
+            <span class="badge b-fav">fav</span>
+          </div>
+          <p class="item-desc">Aguardiente, canela, panela derretida y limón — el clásico andino en versión helada</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Michelada colombiana</span></div>
+          <p class="item-desc">Cerveza fría con limón, sal, salsa negra y ají — estilo costa caribe</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Ron con panela y limón</span></div>
+          <p class="item-desc">Ron colombiano, jugo de panela fría, limón exprimido y hielo</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+    </div>
+
+    <div id="cervezas" class="section-header reveal" style={{marginTop: "4rem"}}>
+      <span class="section-num">07</span>
+      <h2 class="section-title">Cervezas</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Bien frías</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Águila / Águila Light</span></div>
+          <p class="item-desc">La cerveza colombiana por excelencia — importada</p>
+        </div>
+        <span class="item-price">$3.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Pilsener / Golden</span></div>
+          <p class="item-desc">Opciones locales salvadoreñas bien frías</p>
+        </div>
+        <span class="item-price">$2.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Artesanal del mes</span></div>
+          <p class="item-desc">Rotación mensual — consulta al mesero</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+    </div>
+
+    <div class="section-header reveal" style={{marginTop: "4rem"}}>
+      <span class="section-num">08</span>
+      <h2 class="section-title">Aguardiente</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Shots y rondas</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Shot de Nectar</span></div>
+          <p class="item-desc">Aguardiente antioqueño sin azúcar — solo o con limonada de panela</p>
+        </div>
+        <span class="item-price">$3.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">La vuelta</span>
+            <span class="badge b-mesa">mesa</span>
+          </div>
+          <p class="item-desc">Ronda de 4 shots de Nectar para la mesa — porque el parche es en grupo</p>
+        </div>
+        <span class="item-price">$10.00</span>
+      </div>
+    </div>
+
+    <div id="picada" class="section-header reveal" style={{marginTop: "4rem"}}>
+      <span class="section-num">09</span>
+      <h2 class="section-title">Picada</h2>
+    </div>
+
+    <div class="cat reveal">
+      <div class="cat-label">Para compartir</div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Picada paisa</span>
+            <span class="badge b-firma">firma</span>
+          </div>
+          <p class="item-desc">Morcilla, chicharrón, chorizo y butifarra — tabla para compartir con ají casero y arepitas</p>
+        </div>
+        <span class="item-price">$12.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Morcilla con arepa</span></div>
+          <p class="item-desc">Morcilla antioqueña en rodajas, a la plancha, con arepa de maíz y hogao</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Chorizos al carbón</span></div>
+          <p class="item-desc">Dos chorizos colombianos con limón, ají y pan de bono</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Chicharrón crocante</span></div>
+          <p class="item-desc">Chicharrón en trozos, exprimido al momento, con guacamole y ají de maní</p>
+        </div>
+        <span class="item-price">$4.50</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Butifarras con patacón</span></div>
+          <p class="item-desc">Butifarras costeñas fritas sobre patacón aplastado con hogao y queso costeño</p>
+        </div>
+        <span class="item-price">$5.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top"><span class="item-name">Empanadas fritas (x4)</span></div>
+          <p class="item-desc">De pipián o carne — con ají colombiano casero al lado</p>
+        </div>
+        <span class="item-price">$4.00</span>
+      </div>
+
+      <div class="item">
+        <div class="item-left">
+          <div class="item-top">
+            <span class="item-name">Chifles con ají de maní</span>
+            <span class="badge b-veg">veg</span>
+          </div>
+          <p class="item-desc">Plátano maduro en chips con salsa de maní y ají amarillo</p>
+        </div>
+        <span class="item-price">$3.00</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+{/* ══ SOCIAL CTA ══ */}
+<div class="social-band reveal">
+  <p class="social-eyebrow">Síguenos en Instagram</p>
+  <a href="https://instagram.com/elparche.sv" target="_blank" rel="noopener" class="social-handle">@elparche.sv</a>
+</div>
+
+{/* ══ CONTACT ══ */}
+<div class="contact reveal">
+  <h2 class="contact-title">¿Querés reservar?</h2>
+  <p class="contact-sub">Escribinos por WhatsApp — te guardamos la mesa</p>
+  <a href="https://wa.me/50300000000" target="_blank" rel="noopener" class="wa-btn">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</div>
+
+{/* ══ FOOTER ══ */}
+<footer>
+  <div class="footer-logo">El Parche</div>
+  <div class="footer-detail">Santa Rosa de Lima · El Salvador</div>
+  <div class="footer-rule"></div>
+  <div class="footer-detail">Precios en USD &nbsp;·&nbsp; Consumo responsable &nbsp;·&nbsp; El parche es de todos</div>
+</footer>
+
+</div>

@@ -44,6 +44,13 @@
               "es/blog/index",
               "es/blog/nuitka-vs-pyinstaller"
             ]
+          },
+          {
+            "tab": "El Parche",
+            "icon": "utensils",
+            "pages": [
+              "elparche"
+            ]
           }
         ]
       }
@@ -75,7 +82,7 @@
     },
     {
       "source": "/elparche",
-      "destination": "/elparche.html"
+      "destination": "/es/elparche"
     }
   ]
 }
