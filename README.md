@@ -1,22 +1,33 @@
-# zintensity.dev
+# krrt7.dev
 
-This is just my personal website, nothing special.
+TypeScript-only Next.js implementation of the krrt7.dev portfolio site.
 
-## Running
+## What it does
 
-You would run this the same way you run any other Next.js app:
+- Serves the portfolio homepage at `/`
+- Pulls GitHub repos and contribution data for `krrt7`
+- Renders the dark hero/about/projects/contributions layout from the latest site
+- Keeps route assets, metadata routes, and app behavior under `src/app`
+
+## Setup
 
 ```console
-$ git clone https://github.com/ZeroIntensity/zintensity.dev && cd zintensity.dev
-$ npm run dev
-# or
-$ yarn dev
-# or
-$ pnpm dev
-# or
-$ bun dev
+bun install
 ```
 
-## License
+For live GitHub data, set `GITHUB_TOKEN` or authenticate with `gh auth login`.
+Without a token, the app renders with empty GitHub data.
 
-This project is held under the [MIT](https://spdx.org/licenses/MIT.html) license.
+## Run
+
+```console
+bun dev
+```
+
+Then open `http://127.0.0.1:3000/`.
+
+## Build
+
+```console
+bun run build
+```
