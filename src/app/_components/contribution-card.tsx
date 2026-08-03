@@ -10,6 +10,7 @@ export function ContributionCard({ pr }: { pr: PullRequest }) {
             data-key={`${pr.repositoryName}#${pr.number}`}
             data-search={`${pr.repositoryName} ${pr.title}`.toLowerCase()}
             data-merged={String(pr.merged)}
+            data-state={pr.state}
             data-draft={String(pr.isDraft)}
             data-langs={pr.languages.join(",")}
         >
@@ -37,6 +38,8 @@ export function ContributionCard({ pr }: { pr: PullRequest }) {
                         <div className="pr-card-icon">
                             {pr.merged ? (
                                 <IconGitMerge className="text-violet-500 w-7 h-7" />
+                            ) : pr.state === "CLOSED" ? (
+                                <IconGitPullRequest className="text-rose-500 w-6 h-6" />
                             ) : (
                                 <>
                                     <IconGitPullRequest className="text-emerald-500 w-6 h-6" />

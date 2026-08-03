@@ -1,4 +1,4 @@
-import { getAllPullRequests } from "./github-contributions";
+import { EXCLUDED_REPOSITORIES, getAllPullRequests } from "./github-contributions";
 import { githubToken } from "./github-auth";
 import { getAllRepos, type GitHubRepo } from "./github-repos";
 import { cacheMetadata, readCachedData, storeData } from "./site-cache";
@@ -10,12 +10,33 @@ const EMPTY_SITE_DATA: SiteData = {
     projects: [],
 };
 
+function filterExcludedRepositories(data: SiteData): SiteData {
+    const pullRequests = data.contributions.pullRequests.filter(
+        (pullRequest) =>
+            !EXCLUDED_REPOSITORIES.has(pullRequest.repositoryName) &&
+            (pullRequest.merged || pullRequest.state !== "CLOSED"),
+    );
+
+    return {
+        ...data,
+        contributions: { total: pullRequests.length, pullRequests },
+        projects: data.projects.filter((project) => {
+            return !Array.from(EXCLUDED_REPOSITORIES).some((repository) => project.url === `https://github.com/${repository}`);
+        }),
+        stats: { ...data.stats, totalCommits: pullRequests.length },
+    };
+}
+
+function isExcludedRepository(repo: GitHubRepo) {
+    return EXCLUDED_REPOSITORIES.has(repo.full_name);
+}
+
 function repoCountsTowardStars(repo: GitHubRepo) {
-    return !repo.fork;
+    return !repo.fork && !isExcludedRepository(repo);
 }
 
 function repoCountsAsProject(repo: GitHubRepo) {
-    return !repo.fork && !repo.archived && !repo.private;
+    return !repo.fork && !repo.archived && !repo.private && !isExcludedRepository(repo);
 }
 
 function projectFromRepo(repo: GitHubRepo): Project {
@@ -59,13 +80,13 @@ async function buildSiteData(): Promise<SiteData | null> {
 
 export async function fetchSiteData(): Promise<SiteData> {
     const cached = await readCachedData();
-    if (cached) return { ...cached, cache: await cacheMetadata("cache") };
+    if (cached) return { ...filterExcludedRepositories(cached), cache: await cacheMetadata("cache") };
 
     const live = await buildSiteData();
-    if (live) return { ...live, cache: await cacheMetadata("live") };
+    if (live) return { ...filterExcludedRepositories(live), cache: await cacheMetadata("live") };
 
     const stale = await readCachedData(true);
-    if (stale) return { ...stale, cache: await cacheMetadata("cache") };
+    if (stale) return { ...filterExcludedRepositories(stale), cache: await cacheMetadata("cache") };
 
     return { ...EMPTY_SITE_DATA, cache: await cacheMetadata("live") };
 }

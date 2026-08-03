@@ -10,6 +10,7 @@ export type GithubPullRequestNode = {
     number?: number | null;
     title?: string | null;
     merged?: boolean | null;
+    state?: "OPEN" | "CLOSED" | null;
     isDraft?: boolean | null;
     createdAt?: string | null;
     url?: string | null;
@@ -30,6 +31,7 @@ export function pullRequestFromGithubNode(node: GithubPullRequestNode): PullRequ
         title: node.title ?? "",
         createdAt: node.createdAt ?? "",
         merged: Boolean(node.merged),
+        state: node.state ?? (node.merged ? "CLOSED" : "OPEN"),
         isDraft: Boolean(node.isDraft),
         url: node.url ?? "",
         number: Number(node.number || 0),

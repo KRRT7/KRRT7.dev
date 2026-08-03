@@ -3,6 +3,7 @@ export type PullRequest = {
     title: string;
     createdAt: string;
     merged: boolean;
+    state: "OPEN" | "CLOSED";
     isDraft: boolean;
     url: string;
     number: number;

@@ -31,6 +31,7 @@ type SerializedContribution =
           number: number,
           languages: string[],
           month: string,
+          state?: "OPEN" | "CLOSED",
       ];
 
 export type ContributionCardElement = {
@@ -57,6 +58,7 @@ function readContributionCardData(card: HTMLElement): DeferredContribution {
         key: card.dataset.key ?? "",
         search: card.dataset.search ?? "",
         merged: card.dataset.merged === "true",
+        state: card.dataset.state === "CLOSED" ? "CLOSED" : "OPEN",
         draft: card.dataset.draft === "true",
         languages: card.dataset.langs ? card.dataset.langs.split(",") : [],
         repositoryName: "",
@@ -89,13 +91,14 @@ function parseContributionDataFromText(text: string): DeferredContribution[] {
 
 function decodeContribution(serialized: SerializedContribution): DeferredContribution {
     if (Array.isArray(serialized)) {
-        const [repositoryName, title, createdAt, merged, isDraft, url, number, languages, month] = serialized;
+        const [repositoryName, title, createdAt, merged, isDraft, url, number, languages, month, state] = serialized;
         return {
             key: `${repositoryName}#${number}`,
             repositoryName,
             title,
             createdAt,
             merged: Boolean(merged),
+            state: state === "CLOSED" ? "CLOSED" : Boolean(merged) ? "CLOSED" : "OPEN",
             draft: Boolean(isDraft),
             isDraft: Boolean(isDraft),
             url,
@@ -241,6 +244,7 @@ function createContributionCard(data: DeferredContribution) {
     card.dataset.key = data.key;
     card.dataset.search = data.search;
     card.dataset.merged = String(data.merged);
+    card.dataset.state = data.state;
     card.dataset.draft = String(data.draft);
     card.dataset.langs = data.languages.join(",");
     card.innerHTML = contributionCardHtml(data);
@@ -273,6 +277,8 @@ function contributionCardHtml(data: DeferredContribution) {
         .join("");
     const statusIcon = data.merged
         ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-violet-500 w-7 h-7" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9a9 9 0 0 0 9 9"/></svg>`
+        : data.state === "CLOSED"
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-500 w-6 h-6" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>`
         : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-500 w-6 h-6" aria-hidden="true"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" x2="6" y1="9" y2="21"/></svg>${data.draft ? `<span class="draft-badge">Draft</span>` : ""}`;
 
     return `<a href="${escapeAttribute(data.url)}" target="_blank" rel="noopener noreferrer" class="pr-card-link"><div class="pr-card-inner"><div class="pr-card-head"><div class="pr-card-repo">${pythonMark}<p>${escapeHtml(data.repositoryName)}</p></div><div class="pr-card-meta">${languageBadges}<span class="pr-time"><svg viewBox="0 0 512 512" fill="currentColor" class="w-4 h-4" aria-hidden="true"><path d="M256 0a256 256 0 1 1 0 512 256 256 0 1 1 0-512zm-24 120v136c0 8 4 16 11 20l96 64c11 7 26 4 33-7s4-26-7-33l-85-57V120c0-13-11-24-24-24s-24 11-24 24z"/></svg> ${timeAgo(data.createdAt)}</span></div></div><div class="pr-card-body"><div class="pr-card-icon">${statusIcon}</div><p class="pr-card-title">${escapeHtml(data.title)}</p></div></div></a>`;

@@ -76,6 +76,7 @@ export function serializeContributionData(pullRequests: PullRequest[]) {
             pr.number,
             pr.languages,
             monthLabel(pr.createdAt),
+            pr.state,
         ]),
     ).replace(/</g, "\\u003c");
 }

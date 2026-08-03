@@ -31,6 +31,7 @@ describe("contribution filter state", () => {
             key: "oven-sh/bun#1",
             search: "oven-sh bun native runtime",
             merged: false,
+            state: "OPEN" as const,
             draft: true,
             languages: ["TypeScript", "Shell"],
         };
@@ -39,5 +40,12 @@ describe("contribution filter state", () => {
         expect(contributionMatchesFilter(card, { q: "python", status: "draft", languages: ["TypeScript"] })).toBe(false);
         expect(contributionMatchesFilter(card, { q: "bun", status: "open", languages: ["TypeScript"] })).toBe(false);
         expect(contributionMatchesFilter(card, { q: "bun", status: "draft", languages: ["Python"] })).toBe(false);
+        expect(
+            contributionMatchesFilter(
+                { ...card, merged: false, draft: false, state: "CLOSED" },
+                { q: "bun", status: "closed", languages: [] },
+            ),
+        ).toBe(true);
+        expect(contributionMatchesFilter(card, { q: "bun", status: "closed", languages: [] })).toBe(false);
     });
 });

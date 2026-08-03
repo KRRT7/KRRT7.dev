@@ -21,7 +21,7 @@ export function ContributionFilterBar({ languages }: { languages: string[] }) {
                     </kbd>
                 </div>
                 <div className="flex gap-1.5 flex-wrap" id="status-filters">
-                    {["all", "merged", "open", "draft"].map((status) => (
+                    {["all", "merged", "open", "closed", "draft"].map((status) => (
                         <button
                             className={`status-btn px-3 py-0.5 text-xs rounded-full border transition-colors cursor-pointer ${
                                 status === "all"

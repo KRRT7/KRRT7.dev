@@ -9,6 +9,8 @@ import { draftPullRequestsQuery, pullRequestContributionsQuery } from "./github-
 import { graphql, type GraphqlResponse } from "./github-transport";
 import type { PullRequest } from "./site-types";
 
+export const EXCLUDED_REPOSITORIES = new Set(["KRRT7/codeflash"]);
+
 type DraftPullRequestsData = {
     search?: {
         nodes?: GithubPullRequestNode[];
@@ -72,7 +74,10 @@ export async function getAllPullRequests(token: string): Promise<PullRequest[]> 
 
     const drafts = await getDraftPullRequests(token);
     mergeUniquePullRequests(pullRequests, drafts);
-    const langMap = await fetchPrLanguages(token, pullRequests);
+    const filteredPullRequests = pullRequests.filter(
+        (pr) => !EXCLUDED_REPOSITORIES.has(pr.repositoryName) && (pr.merged || pr.state !== "CLOSED"),
+    );
+    const langMap = await fetchPrLanguages(token, filteredPullRequests);
 
-    return assignPullRequestLanguages(pullRequests, langMap);
+    return assignPullRequestLanguages(filteredPullRequests, langMap);
 }

@@ -12,6 +12,7 @@ export type ContributionCardData = {
     key: string;
     search: string;
     merged: boolean;
+    state: "OPEN" | "CLOSED";
     draft: boolean;
     languages: string[];
 };
@@ -54,7 +55,8 @@ export function contributionMatchesFilter(card: ContributionCardData, state: Con
     const matchesStatus =
         state.status === DEFAULT_CONTRIBUTION_STATUS ||
         (state.status === "merged" && card.merged) ||
-        (state.status === "open" && !card.merged && !card.draft) ||
+        (state.status === "closed" && card.state === "CLOSED" && !card.merged) ||
+        (state.status === "open" && card.state === "OPEN" && !card.draft) ||
         (state.status === "draft" && card.draft);
     const matchesLanguage =
         state.languages.length === 0 || state.languages.some((language) => card.languages.includes(language));

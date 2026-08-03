@@ -7,7 +7,7 @@ export function draftPullRequestsQuery() {
             nodes {
               ... on PullRequest {
                 repository { owner { login } name }
-                number title merged isDraft createdAt url
+                number title merged state isDraft createdAt url
               }
             }
           }
@@ -25,7 +25,7 @@ export function pullRequestContributionsQuery() {
                 nodes {
                   pullRequest {
                     repository { owner { login } name }
-                    number title merged isDraft createdAt url
+                    number title merged state isDraft createdAt url
                   }
                 }
               }
